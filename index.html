@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sara & Silvio</title>
+  <style>
+    .scene {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      overflow: hidden;
+      perspective: 1400px;
+      background: #eee7dc;
+    }
+
+    .invitation-frame {
+      position: relative;
+      height: min(92vh, 124.4vw, 848.7px);
+      aspect-ratio: 1414 / 2000;
+      overflow: visible;
+      box-shadow: 0 18px 55px #473b2b33;
+    }
+
+    .invitation {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cover {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      border: 0;
+      cursor: pointer;
+      overflow: hidden;
+      color: #40372d;
+      font: 500 1rem/1.2 serif;
+      letter-spacing: .08em;
+      text-shadow: 0 1px 10px #fffdf8aa;
+      background: #fffdf826;
+      backdrop-filter: blur(5px) saturate(.95);
+      -webkit-backdrop-filter: blur(5px) saturate(.95);
+      transform-origin: left top;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .cover::before {
+      position: absolute;
+      inset: -70%;
+      content: '';
+      pointer-events: none;
+      background: linear-gradient(115deg, transparent 44%, #fffdf899 50%, transparent 56%);
+      animation: shimmer 3.8s ease-in-out infinite;
+    }
+
+    .cover.opened {
+      pointer-events: none;
+    }
+
+    .cover span { transition: opacity .25s; }
+    .cover.opened span { opacity: 0; }
+    .bow {
+      position: absolute;
+      top: -6%;
+      left: 27%;
+      width: 46%;
+      height: auto;
+      pointer-events: none;
+      filter: drop-shadow(1px 3px 3px #433a3426);
+      transition: opacity .4s ease;
+    }
+    .invitation-frame:has(.cover.opened) > .bow { opacity: 0; }
+    .pearl {
+      position: absolute;
+      width: 3.3%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 32% 25%, #f7f5ed 0%, #eeeadc 32%, #d8d1bc 70%, #bbb39e 100%);
+      box-shadow: inset -1px -1px 3px #887e551a, 1px 2px 3px #4d422c26;
+      pointer-events: none;
+    }
+    .pearl::after {
+      content: '';
+      position: absolute;
+      width: 55%;
+      height: 55%;
+      top: -5%;
+      left: 0;
+      background: #fffef5;
+      clip-path: polygon(50% 0, 59% 40%, 100% 50%, 59% 59%, 50% 100%, 40% 59%, 0 50%, 40% 40%);
+      animation: pearl-glint 5s ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+    @keyframes pearl-glint {
+      0%, 65%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); }
+      78% { opacity: .4; transform: scale(1) rotate(12deg); }
+    }
+    .fold {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    @keyframes shimmer {
+      0%, 45% { transform: translateX(-45%) rotate(8deg); opacity: 0; }
+      55% { opacity: .9; }
+      75%, 100% { transform: translateX(45%) rotate(8deg); opacity: 0; }
+    }
+
+    @keyframes page-turn {
+      0% {
+        transform: translate3d(0, 0, 1px) rotateX(0) rotateY(0) rotateZ(0);
+        opacity: 1;
+      }
+      20% {
+        transform: translate3d(0, 0, 20px) rotateX(-8deg) rotateY(10deg) rotateZ(1deg);
+        opacity: 1;
+      }
+      70% {
+        transform: translate3d(0, 0, -8px) rotateX(8deg) rotateY(-125deg) rotateZ(-3deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(0, 0, -24px) rotateX(12deg) rotateY(-180deg) rotateZ(-5deg);
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cover::before, .pearl::after { animation: none; }
+    }
+  </style>
+</head>
+<body class="scene">
+    <div class="invitation-frame">
+      <img class="invitation" src="pozivnica.png" alt="Vjenčana pozivnica Sare i Silvija">
+      <button class="cover" type="button" aria-label="Otvori pozivnicu">
+        <span>KLIKNITE ZA OTVARANJE</span>
+        <svg class="bow" viewBox="0 0 300 190" aria-hidden="true">
+          <defs>
+            <linearGradient id="ribbon" x1="0" y1="0" x2=".8" y2="1" gradientUnits="objectBoundingBox">
+              <stop stop-color="#cec9be"/>
+              <stop offset=".28" stop-color="#eeeade"/>
+              <stop offset=".48" stop-color="#e3dfd3"/>
+              <stop offset=".72" stop-color="#d4cfc3"/>
+              <stop offset="1" stop-color="#eae6db"/>
+            </linearGradient>
+            <radialGradient id="eyelet">
+              <stop offset=".5" stop-color="#695832"/>
+              <stop offset=".58" stop-color="#cdbc8b"/>
+              <stop offset=".78" stop-color="#ad9560"/>
+              <stop offset=".91" stop-color="#c4ae7b"/>
+              <stop offset="1" stop-color="#88682e"/>
+            </radialGradient>
+            <filter id="woven" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="fractalNoise" baseFrequency=".7 .18" numOctaves="2" seed="8" result="grain"/>
+              <feColorMatrix in="grain" type="saturate" values="0"/>
+              <feComposite in2="SourceGraphic" operator="in" result="texture"/>
+              <feBlend in="SourceGraphic" in2="texture" mode="soft-light"/>
+            </filter>
+          </defs>
+          <circle cx="150" cy="70" r="16" fill="url(#eyelet)"/>
+          <circle cx="150" cy="70" r="7" fill="#6c685d"/>
+          <g fill="url(#ribbon)" stroke="#d8d4c9" stroke-width=".4" filter="url(#woven)">
+            <path d="M148 54 C119 67 88 99 35 111 L49 142 L65 126 C107 112 136 88 158 63Z"/>
+            <path d="M151 54 C163 84 167 134 185 180 L207 163 L223 166 C205 116 181 69 158 50Z"/>
+            <path d="M148 52 C118 7 57 -4 43 26 C27 61 101 74 148 52Z"/>
+            <path d="M159 52 C192 13 249 9 262 34 C278 64 209 77 159 52Z"/>
+          </g>
+          <path d="M143 51 C107 37 72 35 48 34 C61 57 111 65 143 51 M165 53 C204 37 236 33 257 37 C244 58 202 64 165 53" fill="#a9a9a2" opacity=".45"/>
+          <path d="M140 42 Q153 37 165 45 L169 63 Q155 72 141 62Z" fill="url(#ribbon)" stroke="#d8d4c9" stroke-width=".4" filter="url(#woven)"/>
+        </svg>
+        <i class="pearl" aria-hidden="true" style="left:10%;top:25%;--delay:-1s"></i>
+        <i class="pearl" aria-hidden="true" style="left:83%;top:20%;width:2%;--delay:-3s"></i>
+        <i class="pearl" aria-hidden="true" style="left:28%;top:47%;width:1.8%;--delay:-2s"></i>
+        <i class="pearl" aria-hidden="true" style="left:71%;top:53%;width:1.8%;--delay:-4s"></i>
+        <i class="pearl" aria-hidden="true" style="left:15%;top:69%;--delay:-.5s"></i>
+        <i class="pearl" aria-hidden="true" style="left:85%;top:86%;--delay:-2.5s"></i>
+      </button>
+      <svg class="fold" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="silk" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#b6a58d" stop-opacity=".45"/>
+            <stop offset=".18" stop-color="#fffdf8" stop-opacity=".95"/>
+            <stop offset=".52" stop-color="#f3eadb" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#fffdf8" stop-opacity=".12"/>
+          </linearGradient>
+        </defs>
+        <polygon id="turned-veil" fill="url(#silk)" points=""/>
+      </svg>
+    </div>
+    <script>
+      const cover = document.querySelector('.cover');
+      // Let the ribbon extend above the card without clipping its loops.
+      const bow = cover.querySelector('.bow');
+      cover.parentElement.append(bow);
+      const folded = document.querySelector('#turned-veil');
+      const silk = document.querySelector('#silk');
+      const pageTurnAudio = new Audio('mixkit-page-forward-single-chime-1107.wav');
+      pageTurnAudio.preload = 'auto';
+      pageTurnAudio.volume = .6;
+      async function playPageTurn() {
+        try {
+          pageTurnAudio.currentTime = 0;
+          await pageTurnAudio.play();
+        } catch {
+          // Opening still works if the browser or device blocks audio.
+        }
+      }
+      // Keep the portion above/left of the moving diagonal on the card.
+      // Reflect the lifted portion across that crease to show the veil's underside.
+      function clipAtDiagonal(points, s, keepNear) {
+        const result = [];
+        for (let i = 0; i < points.length; i++) {
+          const a = points[i], b = points[(i + 1) % points.length];
+          const da = a[0] + a[1] - s, db = b[0] + b[1] - s;
+          const insideA = keepNear ? da <= 0 : da >= 0;
+          const insideB = keepNear ? db <= 0 : db >= 0;
+          if (insideA) result.push(a);
+          if (insideA !== insideB) {
+            const t = da / (da - db);
+            result.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+          }
+        }
+        return result;
+      }
+      cover.addEventListener('click', () => {
+        void playPageTurn();
+        cover.classList.add('opened');
+        cover.tabIndex = -1;
+        const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const start = performance.now();
+        const square = [[0, 0], [100, 0], [100, 100], [0, 100]];
+        function animate(now) {
+          const t = reduced ? 1 : Math.min((now - start) / 1000, 1);
+          const eased = t * t * (3 - 2 * t);
+          const s = 200 * (1 - eased);
+          const resting = clipAtDiagonal(square, s, true);
+          const lifted = clipAtDiagonal(square, s, false).map(([x, y]) => [s - y, s - x]);
+          cover.style.clipPath = `polygon(${resting.map(([x, y]) => `${x}% ${y}%`).join(',')})`;
+          folded.setAttribute('points', lifted.map(p => p.join(',')).join(' '));
+          const curl = Math.min(22, 3 + 35 * Math.sin(Math.PI * t));
+          silk.setAttribute('x1', s / 2);
+          silk.setAttribute('y1', s / 2);
+          silk.setAttribute('x2', s / 2 - curl);
+          silk.setAttribute('y2', s / 2 - curl);
+          if (t < 1) requestAnimationFrame(animate);
+          else {
+            cover.hidden = true;
+            cover.style.display = 'none';
+            folded.setAttribute('points', '');
+          }
+        }
+        requestAnimationFrame(animate);
+      }, { once: true });
+    </script>
+</body>
+</html>
